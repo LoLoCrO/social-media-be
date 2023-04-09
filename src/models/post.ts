@@ -13,9 +13,14 @@ class Post extends Model {
 
     public readonly user?: User;
     public readonly comments?: Comment[];
+
+    static defineAssociations(user: typeof User, comment: typeof Comment) {
+        Post.belongsTo(user, { foreignKey: 'postId', as: 'users' });
+        Post.hasMany(comment, { foreignKey: 'postId', as: 'comments' });
+    }
 }
 
-Post.init({
+sequelize.define('Post', {
     id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
@@ -32,12 +37,29 @@ Post.init({
     imageUrl: {
         type: DataTypes.STRING,
     },
+    userId: {
+        type: DataTypes.UUIDV4,
+        references: {
+            model: User,
+            key: 'id'
+        }
+    },
+    commentId: {
+        type: DataTypes.UUIDV4,
+        references: {
+            model: Comment,
+            key: 'id'
+        }
+    }
 }, {
-    sequelize,
+    modelName: 'post',
     tableName: 'posts',
 });
 
-Post.belongsTo(User, { foreignKey: 'userId', as: 'user' });
-Post.hasMany(Comment, { foreignKey: 'postId', as: 'comments' });
+
+Post.defineAssociations = function (User, Comment) {
+    Post.belongsTo(User, { foreignKey: 'userId', as: 'users' });
+    Post.hasMany(Comment, { foreignKey: 'postId', as: 'comments' });
+};
 
 export default Post;

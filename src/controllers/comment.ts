@@ -13,7 +13,7 @@ export const getCommentsForPost = async (req: Request, res: Response) => {
         const comments = await Comment.findAll({ where: { postId }, include: [User] });
         res.json(comments);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -25,7 +25,7 @@ export const createCommentForPost = async (req: Request, res: Response) => {
         const comment = await Comment.create({ content, postId, userId });
         res.status(201).json(comment);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -42,7 +42,7 @@ export const updateComment = async (req: Request, res: Response) => {
         }
         res.json(updatedComment);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -55,6 +55,6 @@ export const deleteComment = async (req: Request, res: Response) => {
         }
         res.json({ message: `Comment with id ${id} deleted successfully` });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };

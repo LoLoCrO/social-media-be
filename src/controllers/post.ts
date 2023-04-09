@@ -7,7 +7,7 @@ export const getPosts = async (req: Request, res: Response) => {
         const posts = await Post.findAll({ include: [User] });
         res.json(posts);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -20,7 +20,7 @@ export const getPostById = async (req: Request, res: Response) => {
         }
         res.json(post);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -31,7 +31,7 @@ export const createPost = async (req: Request, res: Response) => {
         const post = await Post.create({ title, content, userId });
         res.status(201).json(post);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -48,7 +48,7 @@ export const updatePost = async (req: Request, res: Response) => {
         }
         res.json(updatedPost);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -61,6 +61,6 @@ export const deletePost = async (req: Request, res: Response) => {
         }
         res.json({ message: `Post with id ${id} deleted successfully` });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };

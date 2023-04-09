@@ -6,7 +6,7 @@ export const getUsers = async (req: Request, res: Response) => {
         const users = await User.findAll({ attributes: { exclude: ['password'] } });
         res.json(users);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -19,7 +19,7 @@ export const getUserById = async (req: Request, res: Response) => {
         }
         res.json(user);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -36,7 +36,7 @@ export const updateUser = async (req: Request, res: Response) => {
         }
         res.json(updatedUser);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };
 
@@ -49,6 +49,6 @@ export const deleteUser = async (req: Request, res: Response) => {
         }
         res.json({ message: `User with id ${id} deleted successfully` });
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        res.status(500).json({ message: err });
     }
 };

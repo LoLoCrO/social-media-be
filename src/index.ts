@@ -19,15 +19,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-    cors({
-        origin: `http://localhost:${port}`,
-        credentials: true,
-    })
-);
 
+const options = {
+  origin: `http://localhost:${port}`,
+  credentials: true,
+};
+
+app.use(cors(options));
 app.use(router);
 
-sequelize.sync().then(() => {
-  app.listen(port, () => console.log('Server is running'));
-});
+sequelize.sync()
+  .then(() => {
+    console.log("Synced db.");
+    app.listen(port, () => console.log('Server is running'));
+  })
+  .catch((err) => {
+    console.log("Failed to sync db: " + err.message);
+  });
