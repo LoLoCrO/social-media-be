@@ -4,7 +4,7 @@ import authMiddleware from '../middleware/auth';
 
 const commentRouter = express.Router();
 
-commentRouter.get('/:postId/comments', getCommentsForPost);
+commentRouter.get('/:postId/comments', authMiddleware, getCommentsForPost);
 
 commentRouter.post('/:postId/comments', authMiddleware, createCommentForPost);
 

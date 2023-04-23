@@ -1,55 +1,18 @@
-import { Model, DataTypes } from 'sequelize';
-import sequelize from '../config/sequelize';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import User from './user';
 import Post from './post';
 
-class Comment extends Model {
-    public id!: number;
-    public content!: string;
-    public readonly createdAt!: Date;
-    public readonly updatedAt!: Date;
+@Entity()
+export default class Comment {
+    @PrimaryGeneratedColumn()
+    id!: number;
 
-    public readonly user?: User;
-    public readonly post?: Post;
+    @Column('text')
+    content!: string;
 
-    static defineAssociations(user: typeof User, post: typeof Post) {
-        Comment.belongsTo(user, { foreignKey: 'userId', as: 'user' });
-        Comment.belongsTo(post, { foreignKey: 'postId', as: 'post' });
-    }
+    @ManyToOne(() => User, (user) => user.comments)
+    user?: User;
+
+    @ManyToOne(() => Post, (post) => post.comments)
+    post?: Post;
 }
-
-sequelize.define('Comment', {
-    id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
-        primaryKey: true,
-    },
-    content: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-    },
-    userId: {
-        type: DataTypes.UUIDV4,
-        references: {
-            model: User,
-            key: 'id'
-        }
-    },
-    postId: {
-        type: DataTypes.UUIDV4,
-        references: {
-            model: Post,
-            key: 'id'
-        }
-    }
-}, {
-    modelName: 'comment',
-    tableName: 'comments',
-});
-
-Comment.defineAssociations = function (user, post) {
-    Comment.belongsTo(user, { foreignKey: 'userId', as: 'user' });
-    Comment.belongsTo(post, { foreignKey: 'postId', as: 'post' });
-};
-
-export default Comment;

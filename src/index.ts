@@ -5,8 +5,10 @@ import morgan from 'morgan';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-import sequelize from './config/sequelize';
+import 'reflect-metadata';
+
 import router from './routes';
+import AppDataSource from './config/database';
 
 dotenv.config();
 
@@ -27,12 +29,13 @@ const options = {
 
 app.use(cors(options));
 app.use(router);
+app.use((req, res, next) => {console.log(req.body);});
 
-sequelize.sync()
+AppDataSource.initialize()
   .then(() => {
-    console.log("Synced db.");
+    console.log("Data Source has been initialized!")
     app.listen(port, () => console.log('Server is running'));
   })
   .catch((err) => {
-    console.log("Failed to sync db: " + err.message);
-  });
+    console.error("Error during Data Source initialization", err)
+  })

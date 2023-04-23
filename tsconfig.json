@@ -1,0 +1,11 @@
+{
+    "target": "esnext",
+    "module": "commonjs",
+    "compilerOptions": {
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+    },
+    "strictPropertyInitialization": false,
+}
