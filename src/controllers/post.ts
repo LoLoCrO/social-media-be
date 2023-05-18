@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Post from '../models/post';
-import User from '../models/user';
+import User from '../user/model';
 import dataSource from '../config/database';
 
 

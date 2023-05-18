@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import Comment from '../models/comment';
 import Post from '../models/post';
-import User from '../models/user';
+import User from '../user/model';
 import dataSource from '../config/database';
 
 export const getCommentsForPost = async (req: Request, res: Response) => {
